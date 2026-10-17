@@ -12,12 +12,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -330,7 +332,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            Box(modifier = Modifier.windowInsetsPadding(WindowInsets.displayCutout)) {
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFF1E1E1E))
+                    .windowInsetsPadding(WindowInsets.displayCutout)
+            ) {
                 App(
                     viewModel = viewModel,
                     chatViewModel = chatViewModel,
