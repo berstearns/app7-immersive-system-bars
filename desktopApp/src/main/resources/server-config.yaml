@@ -1,0 +1,3 @@
+backend_url: "PLACEHOLDER_BACKEND_HOST"
+queue_host: "PLACEHOLDER_QUEUE_HOST"
+queue_port: 0

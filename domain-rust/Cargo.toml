@@ -1,0 +1,34 @@
+[package]
+name = "app7_domain"
+version = "0.1.0"
+edition = "2021"
+description = "Algebraic source of truth for app7's pure domain — Rust port of App7Domain.hs + domain-core/*.c, same C ABI (app7_domain.h)"
+
+[lib]
+# staticlib: linked with domain-core/jni/app7_domain_jni.c into libapp7_domain.so
+# rlib: for cargo test
+crate-type = ["staticlib", "rlib"]
+
+[features]
+# `std` disables the crate's no_std runtime glue (panic handler + libc
+# global allocator) so test binaries can use std's.  The release staticlib
+# is built WITHOUT it (default), keeping the crate no_std for the .so link.
+std = []
+
+[dependencies]
+# NONE — the domain is dependency-free by design (size budget + auditability).
+
+[dev-dependencies]
+# Self-dependency trick: cargo unifies features per test target, so unit
+# AND integration tests build the lib with `std` enabled — std's panic
+# handler/allocator win, avoiding duplicate-lang-item clashes.  Normal
+# `cargo build` ignores dev-dependencies (resolver v2), so the staticlib
+# keeps its no_std runtime glue.
+app7_domain = { path = ".", features = ["std"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
